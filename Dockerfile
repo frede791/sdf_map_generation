@@ -44,4 +44,4 @@ COPY --from=build-stage /work/blender_extern_draco/build/libextern_draco.so /wor
 COPY --from=build-stage /work/blosm.zip /work/map_generator/blosm.zip
 COPY map_generation.py /work/map_generator/map_generation.py
 
-CMD ["python3", "/work/map_generator/map_generation.py"]
+CMD ["python3", "/work/map_generator/map_generation.py", "--coordinates", "$COORDINATES", "--lod", "$LOD", "--google_api_key", "$GOOGLE_API_KEY", "--data_type", "$DATA_TYPE", "--name", "$NAME", "--world_store", "$WORLD_STORE", "--blender_store", "$BLENDER_STORE"]
