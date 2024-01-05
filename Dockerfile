@@ -29,9 +29,29 @@ FROM ubuntu:22.04 as run-stage
 
 RUN apt-get update && apt-get install -y \
     python3.10 \
-    pip
+    pip \
+    build-essential \
+    git \
+    subversion \
+    cmake \
+    libx11-dev \
+    libxxf86vm-dev \
+    libxcursor-dev \
+    libxi-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libegl-dev \
+    libwayland-dev \
+    wayland-protocols \
+    libxkbcommon-dev \
+    libdbus-1-dev \
+    linux-libc-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev
 
-RUN pip install bpy==4.0.0
+
+RUN pip install bpy==4.0.0 folium
 
 RUN mkdir -p /work/map_generator
 RUN mkdir /work/blender_maps
