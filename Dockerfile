@@ -21,7 +21,7 @@ COPY blosm.zip /work/blosm.zip
 COPY blosm_replacematerial_execute.py /work/blosm_replacematerial_execute.py
 RUN unzip /work/blosm.zip -d /work
 RUN python3 /work/blosm_replacematerial_execute.py
-RUN zip -r -FS /work/blosm.zip /work/blosm
+RUN zip -r -FS blosm.zip /work/blosm
 RUN rm -rf /work/blosm
 
 
@@ -55,6 +55,7 @@ RUN pip install bpy==4.0.0 folium
 
 RUN mkdir -p /work/map_generator
 RUN mkdir /work/blender_maps
+RUN mkdir /work/output
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -64,4 +65,5 @@ COPY --from=build-stage /work/blender_extern_draco/build/libextern_draco.so /wor
 COPY --from=build-stage /work/blosm.zip /work/map_generator/blosm.zip
 COPY map_generation.py /work/map_generator/map_generation.py
 
-CMD ["python3", "/work/map_generator/map_generation.py", "--coordinates", "$COORDINATES", "--lod", "$LOD", "--google_api_key", "$GOOGLE_API_KEY", "--data_type", "$DATA_TYPE", "--name", "$NAME", "--world_store", "$WORLD_STORE", "--blender_store", "$BLENDER_STORE"]
+
+WORKDIR /work/map_generator/

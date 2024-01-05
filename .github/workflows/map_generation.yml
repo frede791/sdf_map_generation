@@ -20,15 +20,15 @@ jobs:
               run: |
                     while IFS="," read -r name coordinates_w coordinates_s coordinates_e coordinates_n lod type storage blender_storage
                     do
-                        docker run -v ~/.simulation-gazebo/worlds/:/work/output --rm \
-                        -e COORDINATES="$coordinates_w,$coordinates_s,$coordinates_e,$coordinates_n" \
-                        -e LOD="$lod" \
-                        -e GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
-                        -e DATA_TYPE="$type" \
-                        -e NAME="$name" \
-                        -e WORLD_STORE="$storage" \
-                        -e BLENDER_STORE="$blender_storage" \
-                        map_gen:1.0.0
+                        docker run -v ~/.simulation-gazebo/worlds/:/work/output --rm map_gen:1.0.0 \
+                        python3 map_generation.py \
+                        --coordinates "$coordinates_w,$coordinates_s,$coordinates_e,$coordinates_n" \
+                        --lod "$lod" \
+                        --google_api_key "${{ secrets.GOOGLE_API_KEY }}" \
+                        --data_type "$type" \
+                        --name "$name" \
+                        --world_store "$storage" \
+                        --blender_store "$blender_storage"
                     done < first_round_map_generation.csv
 
             - name: Upload maps

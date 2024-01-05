@@ -42,7 +42,7 @@ def main():
 
 
     # Enable blosm addon
-    bpy.ops.preferences.addon_install(overwrite=False, filepath="./blosm.zip")
+    bpy.ops.preferences.addon_install(overwrite=True, filepath="./blosm.zip")
     bpy.ops.preferences.addon_enable(module="blosm")
 
 
