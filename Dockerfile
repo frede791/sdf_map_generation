@@ -64,6 +64,7 @@ RUN mkdir -p /work/map_generator/4.0/python/lib/python3.10/site-packages
 COPY --from=build-stage /work/blender_extern_draco/build/libextern_draco.so /work/map_generator/4.0/python/lib/python3.10/site-packages/
 COPY --from=build-stage /work/blosm.zip /work/map_generator/blosm.zip
 COPY map_generation.py /work/map_generator/map_generation.py
+COPY world_template.sdf /work/map_generator/world_template.sdf
 
 
 WORKDIR /work/map_generator/
