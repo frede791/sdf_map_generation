@@ -30,6 +30,7 @@ jobs:
                         --world_store "$storage" \
                         --blender_store "$blender_storage"
                     done < first_round_map_generation.csv
+              continue-on-error: true
 
             - name: Upload maps
               uses: actions/upload-artifact@v2
