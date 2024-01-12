@@ -67,6 +67,10 @@ def main():
     bpy.context.scene.blosm.minLon = args.coordinates[0]
     minLon = bpy.context.scene.blosm.minLon
 
+    # Set center point of map
+    c_lat = (maxLat + minLat)/2
+    c_lon = (maxLon + minLon)/2
+
 
     bpy.context.scene.blosm.relativeToInitialImport = True
     bpy.context.scene.blosm.join3dTilesObjects = True
@@ -118,6 +122,8 @@ def main():
     for vert in mesh.vertices:
         if vert.co[2] > max_elev:
           max_elev = vert.co[2]
+
+
 
     # Add 15 meters to get safely above average osm building height.
     if args.data_type == 'osm':
@@ -214,14 +220,14 @@ def main():
 
 
 
-    # # Make request for altitude
-    # if args.data_type == 'google-3d-tiles':
-    # #     base_url = 'https://maps.googleapis.com/maps/api/elevation/json'
-    # #     response = response = requests.get(f'{base_url}?locations={c_lat},{c_lon}&key={API_KEY}')
-    #     # c_elevation = response.json()['results'][0]['elevation']
-    #     pass
-    # elif args.data_type == 'osm':
-    #     c_elevation = 0
+    # # Make request for global elevation
+    if args.data_type == 'google-3d-tiles':
+        base_url = 'https://maps.googleapis.com/maps/api/elevation/json'
+        response = response = requests.get(f'{base_url}?locations={c_lat},{c_lon}&key={args.google_api_key}')
+        c_elevation = response.json()['results'][0]['elevation']
+        pass
+    elif args.data_type == 'osm':
+        c_elevation = 0
 
     # Generate correct sdf file
     os.system(f'cp ./world_template.sdf {args.world_store}/{args.name}/{args.name}.sdf')
@@ -231,7 +237,12 @@ def main():
         file.close()
 
     filedata = filedata.replace('#ELEVATION#', str(max_elev))
+    filedata = filedata.replace('#NEG_ELEVATION#', str(-max_elev))
     filedata = filedata.replace('#NAME#', args.name)
+    filedata = filedata.replace('#CAM_ELEVATION#', str(max_elev + 5))
+    filedata = filedata.replace('#GLOB_ELEVATION#', str(c_elevation))
+    filedata = filedata.replace('#LATITUDE#', str(c_lat))
+    filedata = filedata.replace('#LONGITUDE#', str(c_lon))
 
     with open(f'{args.world_store}/{args.name}/{args.name}.sdf', 'w') as file:
         file.write(filedata)

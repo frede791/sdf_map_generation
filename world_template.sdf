@@ -1,4 +1,4 @@
-<sdf version='1.5'>
+<sdf version='1.10'>
   <world name='#NAME#'>
     <physics type="ode">
       <max_step_size>0.004</max_step_size>
@@ -75,26 +75,33 @@
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
     <scene>
+      <sky>1
+        <clouds>1
+          <mean_size>0.8</mean_size>
+        </clouds>
+      </sky>
       <grid>false</grid>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
       <shadows>true</shadows>
     </scene>
-	<model name="#NAME#">
-		<pose>0 0 -#ELEVATION# 0 0 0</pose>
-		<static>true</static>
-		<link name="body">
-			<visual name="visual">
-				<geometry>
-					<mesh>
-						<uri>model://#NAME#/materials/#NAME#.dae</uri>
-						<scale>1 1 1</scale>
-					</mesh>
-				</geometry>
-			</visual>
-		</link>
-	</model>
-  <model name='starting_plane'>
+
+    <model name="#NAME#">
+      <pose>0 0 #NEG_ELEVATION# 0 0 0</pose>
+      <static>true</static>
+      <link name="body">
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://#NAME#/materials/#NAME#.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <model name='starting_plane'>
       <static>true</static>
       <link name='link'>
         <collision name='collision'>
@@ -127,12 +134,12 @@
         </inertial>
         <enable_wind>false</enable_wind>
       </link>
-      <pose>0 0 0 0 -0 0</pose>
       <self_collide>false</self_collide>
     </model>
+
     <light name='sunUTC' type='directional'>
       <pose>0 0 500 0 -0 0</pose>
-      <cast_shadows>true</cast_shadows>
+      <cast_shadows>false</cast_shadows>
       <intensity>1</intensity>
       <direction>0.001 0.625 -0.78</direction>
       <diffuse>0.904 0.904 0.904 1</diffuse>
@@ -149,5 +156,12 @@
         <falloff>0</falloff>
       </spot>
     </light>
+
+    <spherical_coordinates>1
+      <latitude_deg>#LATITUDE#</latitude_deg>
+      <longitude_deg>#LONGITUDE#</longitude_deg>
+      <elevation>#GLOB_ELEVATION#</elevation>
+    </spherical_coordinates>
+
   </world>
 </sdf>
