@@ -12,6 +12,7 @@
     <plugin name='gz::sim::systems::Imu' filename='gz-sim-imu-system'/>
     <plugin name='gz::sim::systems::AirPressure' filename='gz-sim-air-pressure-system'/>
     <plugin name='gz::sim::systems::ApplyLinkWrench' filename='gz-sim-apply-link-wrench-system'/>
+    <plugin name='gz::sim::systems::NavSat' filename='gz-sim-navsat-system'/>
     <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
       <render_engine>ogre2</render_engine>
     </plugin>
@@ -85,7 +86,6 @@
       <background>0.7 0.7 0.7 1</background>
       <shadows>true</shadows>
     </scene>
-
     <model name="#NAME#">
       <pose>0 0 #NEG_ELEVATION# 0 0 0</pose>
       <static>true</static>
@@ -100,7 +100,6 @@
         </visual>
       </link>
     </model>
-
     <model name='starting_plane'>
       <static>true</static>
       <link name='link'>
@@ -136,7 +135,14 @@
       </link>
       <self_collide>false</self_collide>
     </model>
-
+    <model name="navsat_model">
+      <link name="link">
+        <sensor name="navsat_sensor" type="navsat">
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+        </sensor>
+      </link>
+    </model>
     <light name='sunUTC' type='directional'>
       <pose>0 0 500 0 -0 0</pose>
       <cast_shadows>false</cast_shadows>
@@ -156,12 +162,10 @@
         <falloff>0</falloff>
       </spot>
     </light>
-
     <spherical_coordinates>1
       <latitude_deg>#LATITUDE#</latitude_deg>
       <longitude_deg>#LONGITUDE#</longitude_deg>
       <elevation>#GLOB_ELEVATION#</elevation>
     </spherical_coordinates>
-
   </world>
 </sdf>
