@@ -45,3 +45,14 @@ GZ_SIM_RESOURCE_PATH=~/.simulation-gazebo/worlds:~/.simulation-gazebo/models GZ_
 ## Other branches ##
 
 There are also two experimental branches called "dynamic_tile_rendering" and "multi_drone_support". These provide tile rendering and multi-drone support features but are less stable that then main branch and may contain code-breaking bugs. Multi-drone builds on top of dynamic tile rendering and allows the user to spawn multiple drone simultaneously and have each one spawn their own set of tiles around them, irregardless of the direction that they fly in.
+
+## Current issues ##
+
+One bug that persists is the existence of libextern_draco.so not being found. I have placed the shared object file in the necessary location and it seems to work. I believe the issue is related to having both the blender desktop app installed and the bpy package.
+
+## Future work ##
+
+- While the main branch can be used and is (mostly) stable, it should still be polished and tested before release. Instead of providing a service where people can generate their own maps, it could also be an option to provide only a selection of maps to customers.
+- When using dynamic tile rendering, one bug that still needs to be figured out is the difference in elevation between different tiles. I have not yet managed to ensure that they are perfectly aligned at all times.
+- Fixing the elevation with relation to the drone is still necessary. Placing the drone at 0 elevation in the world may lead to the drone spawning inside of buildings or other objects and thus necessitates moving upwards. Having this upwards move also be registered in PX4 may require some additional tinkering. The way this is done at the moment is to set a platform at 0 elevation and move the map's elevation down by its highest point.
+- Collision models for these new maps need to be added. At the moment, there is only the starting plattform that has collisions enabled. This appears to be a bug with gazebo's dartsim physics engine.
