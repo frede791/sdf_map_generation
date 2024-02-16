@@ -98,6 +98,14 @@
             </mesh>
           </geometry>
         </visual>
+        <!-- <collision name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://#NAME#/materials/#NAME#.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </collision> -->
       </link>
     </model>
     <model name='starting_plane'>
